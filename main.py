@@ -13,13 +13,16 @@ def end():
     while end != Y:
         endStore.end = input("Do you want to close the store?(Y or N)")
 
-        if(end != Y or end != N)
+        if end <> Y or end <> N :
             print("please type Y or N")
 
-def main:
-    global mBarber = input("input barber: ")
-    global nChair = input("input the number of chire: ")
-    global Clientp = input("input cient: ")
+def main():
+    global mBarber 
+    mBarber = input("input barber: ")
+    global nChair 
+    nChair = input("input the number of chire: ")
+    global Clientp
+    Clientp = input("input cient: ")
     
     threadID1 = 1
     threadID2 = 1
