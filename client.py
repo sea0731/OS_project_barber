@@ -1,3 +1,5 @@
+import  threading
+
 global mBarber
 global nChair
 global Clientp
