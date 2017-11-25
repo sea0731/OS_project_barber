@@ -20,7 +20,12 @@ def main:
     global mBarber = input("input barber: ")
     global nChair = input("input the number of chire: ")
     global Clientp = input("input cient: ")
-    
+
+    '''client need 2 lock    add by Chen wei''' 
+    cond = threading.Condition()
+    enter = threading.Condition()
+    '''-------------------------------------'''
+
     threadID1 = 1
     threadID2 = 1
     BarberThreads = []
@@ -33,7 +38,7 @@ def main:
 
     while gatattr(endStore, "end") != "Y":
         sleep(np.random.poisson(Clientp, 1))
-        thread = client.Client(threadID2, "client"+str(threadID2))
+        thread = client.Client(threadID2, "client"+str(threadID2), cond, enter)
         thread.start()
         ClientQueue.put(thread)
         threadID2++
