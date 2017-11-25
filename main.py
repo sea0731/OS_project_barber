@@ -5,6 +5,8 @@ import Queue
 import barber
 import client
 
+global onChair = 0
+
 class endStore:
     def __init__():
         self.end = "N"
@@ -24,6 +26,9 @@ def main():
     global Clientp
     Clientp = input("input cient: ")
     
+    cond = threading.Condition()
+    enter = threading.Condition()
+    
     threadID1 = 1
     threadID2 = 1
     BarberThreads = []
@@ -36,7 +41,7 @@ def main():
 
     while gatattr(endStore, "end") != "Y":
         sleep(np.random.poisson(Clientp, 1))
-        thread = client.Client(threadID2, "client"+str(threadID2))
+        thread = client.Client(threadID2, "client"+str(threadID2), cond, enter)
         thread.start()
         ClientQueue.put(thread)
         threadID2 += threadID2
