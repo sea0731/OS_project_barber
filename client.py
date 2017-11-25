@@ -19,7 +19,7 @@ class client( threading.Thread ) :
         if Clientp < nChair :
             self.enter.release()
             '''enter shop'''
-            Clientp++
+            Clientp+=1
             self.cond.acquire()
             barber.cond.notify()'''barber中的鎖先給個名字cond'''
             self.cond.wait()
