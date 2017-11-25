@@ -13,7 +13,7 @@ def end():
     while end != Y:
         endStore.end = input("Do you want to close the store?(Y or N)")
 
-        if(end != Y || end != N)
+        if(end != Y or end != N)
             print("please type Y or N")
 
 def main:
@@ -36,6 +36,6 @@ def main:
         thread = client.Client(threadID2, "client"+str(threadID2))
         thread.start()
         ClientQueue.put(thread)
-        threadID2++
+        threadID2 += threadID2
 
     ClientQueue.join()
