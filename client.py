@@ -2,7 +2,7 @@ global mBarber
 global nChair
 global Clientp
 
-
+global onChair
 
 class client( threading.Thread ) :
     def __init__( self, threadID, clientName, cond, enter ):
@@ -16,10 +16,10 @@ class client( threading.Thread ) :
     def run( self ):
         self.enter.acquire()
 
-        if Clientp < nChair :
+        if onChair < nChair :
             self.enter.release()
             '''enter shop'''
-            Clientp+=1
+            onChair+=1
             self.cond.acquire()
             barber.cond.notify()'''barber中的鎖先給個名字cond'''
             self.cond.wait()
