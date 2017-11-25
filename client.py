@@ -26,8 +26,8 @@ class client( threading.Thread ) :
             barber.cond.notify()'''barber中的鎖先給個名字cond'''
             self.cond.wait()
             self.cond.release()
-            print "release cond ".format( self.clientName )
+            print("{0} release cond".format( self.clientName ))
 
         else :
-            print "leave shop ".format( self.clientName )
+            print("{0} leave shop".format( self.clientName ))
             self.enter.release()
