@@ -5,7 +5,8 @@ import Queue
 import barber
 import client
 
-global onChair = 0
+global onChair 
+onChair = 0
 
 class endStore:
     def __init__():
@@ -15,7 +16,7 @@ def end():
     while end != Y:
         endStore.end = input("Do you want to close the store?(Y or N)")
 
-        if end <> Y or end <> N :
+        if end != Y or end != N :
             print("please type Y or N")
 
 def main():
