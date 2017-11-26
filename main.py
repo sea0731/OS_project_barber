@@ -47,7 +47,7 @@ def main():             #main function of  barber-client problem
 
     while gatattr(endS, "end") != "Y":  #If user input "Y" terminate creating client
         sleep(np.random.poisson(Clientp, 1))    #randomly create client
-        thread = client.Client(threadID2, "client"+str(threadID2), wakeUpbarber, enter)
+        thread = client.Client(threadID2, "client"+str(threadID2), wakeUpbarber, callClient, enter)
         thread.start()
         ClientQueue.put(thread)
         threadID2 += 1
