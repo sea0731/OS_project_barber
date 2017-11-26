@@ -14,7 +14,8 @@ class Barber( threading.Thread ):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.barberName = barberName
-        self.cond = cond
+        self.callB = callB
+        self.callC = callC
         self.enter = enter
 
     def run( self ):
