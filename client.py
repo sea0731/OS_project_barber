@@ -1,4 +1,5 @@
 import  threading
+import  barber
 
 global mBarber
 global nChair
@@ -24,7 +25,7 @@ class Client( threading.Thread ) :
             #enter shop
             onChair += 1
             self.cond.acquire()
-            barber.cond.notify() #barber中的鎖先給個名字cond
+            barber.Barber.cond.notify(1) #barber中的鎖先給個名字cond
             self.cond.wait()
             self.cond.release()
             print("{0} release cond".format( self.clientName ))

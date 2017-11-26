@@ -12,6 +12,9 @@ class endStore:         #endStore contain value wheather we end the program
     def __init__():
         self.end = "N"
 
+global endS
+endS = endStore()
+
 def end():              #end function try to get the input if user want to terminate the program or not
     while end != "Y":
         endStore.end = input("Do you want to close the store?(Y or N)")
@@ -38,17 +41,20 @@ def main():             #main function of  barber-client problem
     ClientQueue = Queue.Queue(nChair)       #ClientQueue contain all clients in the store
 
     for threadID1 in range(1, mBarber):     #Create thread of barbers
-        thread = barber.Barber(threadID1, "barber" + str(threadID1))
+        thread = barber.Barber(threadID1, "barber" + str(threadID1), wakeUpbarber, callClient, enter)
         thread.start()
         BarberThreads.append(thread)
 
-    while gatattr(endStore, "end") != "Y":  #If user input "Y" terminate creating client
+    while gatattr(endS, "end") != "Y":  #If user input "Y" terminate creating client
         sleep(np.random.poisson(Clientp, 1))    #randomly create client
         thread = client.Client(threadID2, "client"+str(threadID2), wakeUpbarber, enter)
         thread.start()
         ClientQueue.put(thread)
         threadID2 += 1
-
+    
+    wakeUpbarber.acquire()
+    wakeUpbarber.notifyAll()
+    wakeUpbarber.release()
     ClientQueue.join()
 
 main()
