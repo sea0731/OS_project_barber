@@ -12,7 +12,7 @@ class client( threading.Thread ) :
         self.threadID = threadID
         self.clientName = clientName
         self.cond = cond 
-        self.enter = enter '''main宣告兩個鎖cond , enter傳入'''
+        self.enter = enter #main宣告兩個鎖cond , enter傳入
 
 
     def run( self ):
@@ -20,10 +20,11 @@ class client( threading.Thread ) :
 
         if onChair < nChair :
             self.enter.release()
-            '''enter shop'''
-            onChair+=1
+
+            #enter shop
+            onChair += 1
             self.cond.acquire()
-            barber.cond.notify()'''barber中的鎖先給個名字cond'''
+            barber.cond.notify() #barber中的鎖先給個名字cond
             self.cond.wait()
             self.cond.release()
             print("{0} release cond".format( self.clientName ))
