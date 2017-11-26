@@ -6,7 +6,7 @@ global Clientp
 
 global onChair
 
-class client( threading.Thread ) :
+class Client( threading.Thread ) :
     def __init__( self, threadID, clientName, cond, enter ):
         threading.Thread.__init__( self )
         self.threadID = threadID
