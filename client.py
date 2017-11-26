@@ -1,5 +1,4 @@
 import  threading
-import  barber
 
 global mBarber
 global nChair
