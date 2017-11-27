@@ -1,4 +1,5 @@
 from threading import Thread
+import threading
 import time
 import numpy as np
 import queue
@@ -9,7 +10,7 @@ global onChair          #onChair is record how many clients in waitting room
 onChair = 0
 
 class endStore:         #endStore contain value wheather we end the program
-    def __init__():
+    def __init__(self):
         self.end = "N"
 
 global endS
@@ -25,8 +26,9 @@ def end():              #end function try to get the input if user want to termi
 def main():             #main function of  barber-client problem
     global mBarber      #mBarber record "m" barber is working
     mBarber = input("input barber: ")
+    mBarber = int(mBarber)
     global nChair       #nChair record "n" chair in waiting room
-    nChair = input("input the number of chire: ")
+    nChair = input("input the number of chair: ")
     global Clientp      #Clientp record the frequent parameter of clients come
     Clientp = input("input cient: ")
     
@@ -38,15 +40,15 @@ def main():             #main function of  barber-client problem
     threadID1 = 1                           #threadID1 record the number of barbers
     threadID2 = 1                           #threadID2 record the number of clients
     BarberThreads = []                      #BarberThreads cantain all barbers who are working
-    ClientQueue = Queue.Queue(nChair)       #ClientQueue contain all clients in the store
+    ClientQueue = queue.Queue(nChair)       #ClientQueue contain all clients in the store
 
     for threadID1 in range(1, mBarber):     #Create thread of barbers
         thread = barber.Barber(threadID1, "barber" + str(threadID1), wakeUpbarber, callClient, enter)
         thread.start()
         BarberThreads.append(thread)
 
-    while gatattr(endS, "end") != "Y":  #If user input "Y" terminate creating client
-        sleep(np.random.poisson(Clientp, 1))    #randomly create client
+    while getattr(endS, "end") != "Y":  #If user input "Y" terminate creating client
+        time.sleep(np.random.poisson(float(Clientp), 1))    #randomly create client
         thread = client.Client(threadID2, "client"+str(threadID2), wakeUpbarber, callClient, enter)
         thread.start()
         ClientQueue.put(thread)
