@@ -49,8 +49,9 @@ class popupWindow(object):
 	print mBarber
         print nChair
         print Clientp
-        main()
         self.top.destroy()
+
+        main()
 
 class mainWindow(object):
     def __init__(self,master):
