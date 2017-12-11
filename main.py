@@ -6,12 +6,18 @@ import Queue
 import Tkinter as tk
 import sys
 
+#win = tk.Tk()
+#win.title("The Sleeping Barber Problem")
+#win.geometry('500x500')
+#tk.Label(win, text="Welcome to the Barber Shop!", pady=20).pack()
+
 global mBarber
 mBarber=0
 global nChair
 nChair=0
 global Clientp
 Clientp=0
+
 
 class popupWindow(object):
     def __init__(self,master):
@@ -43,6 +49,7 @@ class popupWindow(object):
 	print mBarber
         print nChair
         print Clientp
+        main()
         self.top.destroy()
 
 class mainWindow(object):
@@ -179,7 +186,6 @@ def main():             #main function of  barber-client problem
     #nChair = input("input the number of chair: ")
     global Clientp      #Clientp record the frequent parameter of clients come
     #Clientp = input("input client paramater: ")
-        
 
     wakeUpbarber = threading.Condition()    #Wheather the client can wake up barbers  
     enter = threading.Condition()           #Wheather the client can enter the waiting room
