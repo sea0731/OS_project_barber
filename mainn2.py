@@ -190,6 +190,8 @@ class mainwindow(tk.Frame):
 	self.store = create(self.canvas, "2.png", 500, 362)
         self.canvas.pack(fill="both", expand=True)
 	
+	'''
+	#test: change clientnumber to let picture number change 
 	for num in range(0,2):
 	    global ClientQueue
 	    ClientQueue=1
@@ -199,6 +201,8 @@ class mainwindow(tk.Frame):
 	    BarberQueue+=1
             self.run()
 	    #self.after(5000, self.run)
+	'''
+	self.run()
 	
     def close(self):
         print("Application-shutdown")
@@ -206,10 +210,13 @@ class mainwindow(tk.Frame):
 
     def run(self):
         global ClientQueue
-	#ClientQueue=1
-	global BarberQueue
+	ClientQueue=1
+	#global BarberQueue
 	#BarberQueue=1
         
+	global mBarber
+	mBarber=1
+
         while ClientQueue<=5:
             if ClientQueue == 1:
                 self.image1 = create(self.canvas, "p1.png", 500, 590)
@@ -238,12 +245,12 @@ class mainwindow(tk.Frame):
 		self.full()
 	    ClientQueue += 1
 	    
-	    if BarberQueue == 1:
+	    if mBarber == 1:
                 self.b1 = create(self.canvas, "s.png", 500, 120)
-	    elif BarberQueue == 2:
+	    elif mBarber == 2:
                 self.b1 = create(self.canvas, "s.png", 375, 120)
                 self.b2 = create(self.canvas, "s.png", 625, 120)
-	    elif BarberQueue == 3:
+	    elif mBarber == 3:
                 self.b1 = create(self.canvas, "s.png", 250, 120)
                 self.b2 = create(self.canvas, "s.png", 500, 120)
                 self.b3 = create(self.canvas, "s.png", 750, 120)
@@ -251,6 +258,7 @@ class mainwindow(tk.Frame):
             self.after(3000, self.run)
 	    
 	    break
+
     def full(self):
 	global ClientQueue
 	global inn
