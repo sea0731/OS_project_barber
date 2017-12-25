@@ -14,6 +14,9 @@ ClientQueue = Queue.Queue()       #ClientQueue contain all clients in the store
 global onChair          #onChair is record how many clients in waitting room
 onChair = 0
 
+global mBarber
+mBarber = 0
+
 class endStore():         #endStore contain value wheather we end the program
     def __init__(self):
         self.end = "N"
@@ -122,6 +125,8 @@ def mainrun():             #main function of  barber-client problem
     nChair = input("input the number of chair: ")
     global Clientp      #Clientp record the frequent parameter of clients come
     Clientp = input("input client paramater: ")
+    
+
 
     wakeUpbarber = threading.Condition()    #Wheather the client can wake up barbers  
     enter = threading.Condition()           #Wheather the client can enter the waiting room
@@ -205,7 +210,8 @@ class mainwindow(tk.Frame):
             self.run()
 	    #self.after(5000, self.run)
 	'''
-	self.run()
+
+        self.run()
 	
     def close(self):
         print("Application-shutdown")
@@ -217,11 +223,12 @@ class mainwindow(tk.Frame):
 	#BarberQueue=1
 
 	global mBarber
-	mBarber=1
+	#mBarber=1
 
         a = ClientQueue.qsize()
         #print ClientQueue.qsize()
-        while ClientQueue<=5:
+
+        while True:
             if ClientQueue.qsize() == 1:
                 self.image1 = create(self.canvas, "p1.png", 500, 590)
             elif ClientQueue.qsize() == 2:
@@ -259,9 +266,10 @@ class mainwindow(tk.Frame):
                 self.b2 = create(self.canvas, "s.png", 500, 120)
                 self.b3 = create(self.canvas, "s.png", 750, 120)
 	    self.canvas.update_idletasks()
-            self.after(500, self.run)
+            self.after(200, self.run)
 	    
 	    break
+        #self.after(200,self.run)
 
     def full(self):
 	global ClientQueue
@@ -291,6 +299,7 @@ def main():
     mainrun()
 
     win.mainloop()
+
 
 if __name__ == "__main__":
     main()
