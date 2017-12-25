@@ -8,6 +8,9 @@ import sys
 from Tkinter import END
 
 
+global ClientQueue
+ClientQueue = Queue.Queue()       #ClientQueue contain all clients in the store
+
 global onChair          #onChair is record how many clients in waitting room
 onChair = 0
 
@@ -210,13 +213,13 @@ class mainwindow(tk.Frame):
 
     def run(self):
         global ClientQueue
-	ClientQueue=1
 	#global BarberQueue
 	#BarberQueue=1
-        
-	global mBarber
-	mBarber=1
 
+#	global mBarber
+#	mBarber=1
+
+        a = ClientQueue.qsize()
         while ClientQueue<=5:
             if ClientQueue == 1:
                 self.image1 = create(self.canvas, "p1.png", 500, 590)
