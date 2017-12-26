@@ -17,6 +17,9 @@ workingBarber = []
 global onChair          #onChair is record how many clients in waitting room
 onChair = 0
 
+global mBarber
+mBarber = 0
+
 global BarberThreads
 
 global whetherFull
@@ -66,8 +69,8 @@ class Barber( threading.Thread ):
 
             self.enter.acquire()
             C = ClientQueue.get()
-            workingBarber[threadID - 1] = 1
-            print workingBarber[threadID - 1]
+            workingBarber[self.threadID - 1] = 1
+            print workingBarber[self.threadID - 1]
             self.enter.release()
 
             self.callC.acquire()
@@ -75,24 +78,24 @@ class Barber( threading.Thread ):
             self.callC.release()
 
             time.sleep(3)
-            workingBarber[threadID - 1] = 0
-            print workingBarber[threadID - 1]
+            workingBarber[self.threadID - 1] = 0
+            print workingBarber[self.threadID - 1]
 
             print C.clientName, " out"
 
             self.enter.acquire()
             while ClientQueue.empty() != True:
                 C = ClientQueue.get()
-                workingBarber[threadID - 1] = 1
-            	print workingBarber[threadID - 1]
+                workingBarber[self.threadID - 1] = 1
+            	print workingBarber[self.threadID - 1]
                 self.enter.release()
                 self.callC.acquire()
                 self.callC.notify()
                 self.callC.release()
 
                 time.sleep(3)
-                workingBarber[threadID - 1] = 0
-            	print workingBarber[threadID - 1]
+                workingBarber[self.threadID - 1] = 0
+            	print workingBarber[self.threadID - 1]
 
                 print C.clientName, " out"
 
@@ -135,7 +138,7 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
         mBarber = input("input barber: ")
 	mBarber = int(mBarber)
         global workingBarber
-        for i in range (1,mBarber):
+        for i in range (0, mBarber):
             workingBarber.append(0)
 
         global nChair       #nChair record "n" chair in waiting room
@@ -160,7 +163,7 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
 
         global whetherFull
 
-        for threadID1 in range(1, mBarber):     #Create thread of barbers
+        for threadID1 in range(0, mBarber):     #Create thread of barbers
             thread = Barber(threadID1, "barber" + str(threadID1), wakeUpbarber, callClient, enter, q_Lock)
             thread.start()
             BarberThreads.append(thread)
@@ -289,7 +292,6 @@ class mainwindow(tk.Frame):
         #BarberQueue=1
 
         global mBarber
-        mBarber=1
 
         global whetherFull
 	'''
