@@ -19,6 +19,9 @@ onChair = 0
 
 global BarberThreads
 
+global whetherFull
+whetherFull = 0
+
 class end( threading.Thread ):              #end function try to get the input if user want to terminate the program or not
     def __init__(self, mainrun):
         self.mainrun = mainrun
@@ -64,6 +67,7 @@ class Barber( threading.Thread ):
             self.enter.acquire()
             C = ClientQueue.get()
             workingBarber[threadID - 1] = 1
+            print workingBarber[threadID - 1]
             self.enter.release()
 
             self.callC.acquire()
@@ -72,6 +76,7 @@ class Barber( threading.Thread ):
 
             time.sleep(3)
             workingBarber[threadID - 1] = 0
+            print workingBarber[threadID - 1]
 
             print C.clientName, " out"
 
@@ -79,6 +84,7 @@ class Barber( threading.Thread ):
             while ClientQueue.empty() != True:
                 C = ClientQueue.get()
                 workingBarber[threadID - 1] = 1
+            	print workingBarber[threadID - 1]
                 self.enter.release()
                 self.callC.acquire()
                 self.callC.notify()
@@ -86,6 +92,7 @@ class Barber( threading.Thread ):
 
                 time.sleep(3)
                 workingBarber[threadID - 1] = 0
+            	print workingBarber[threadID - 1]
 
                 print C.clientName, " out"
 
@@ -151,6 +158,8 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
         global ClientQueue
         ClientQueue = Queue.Queue(nChair)       #ClientQueue contain all clients in the store
 
+        global whetherFull
+
         for threadID1 in range(1, mBarber):     #Create thread of barbers
             thread = Barber(threadID1, "barber" + str(threadID1), wakeUpbarber, callClient, enter, q_Lock)
             thread.start()
@@ -172,6 +181,8 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
                 ClientQueue.put(thread)
             else:
                 print "============out", thread.clientName
+                whetherFull = 1
+                #print "full 1", whetherFull
             q_Lock.release()
 
             thread.start()
@@ -280,6 +291,18 @@ class mainwindow(tk.Frame):
         global mBarber
         mBarber=1
 
+        global whetherFull
+	'''
+        global workingBarber
+        workingBarber = []
+
+        workingBarber[0] = 0
+        workingBarber[1] = 0
+        workingBarber[2] = 0
+        workingBarber[3] = 0
+        workingBarber[4] = 0
+	'''
+
         a = ClientQueue.qsize()
         #print ClientQueue.qsize()
         while True:
@@ -304,46 +327,56 @@ class mainwindow(tk.Frame):
                 self.image4 = create(self.canvas, "p1.png", 700, 590)
                 self.image5 = create(self.canvas, "p1.png", 900, 590)
             #if the shop is full
-            if ClientQueue.qsize() == 5:
-                global inn
-                inn=0
-                self.full()
-            #ClientQueue += 1
+            if whetherFull == 1:
+                whetherFull = 0
+                #self.full()
+                self.fullpic = create(self.canvas, "full.png", 500, 415)
+                time.sleep(1)
+                self.canvas.delete(self.fullpic)
 
-            if mBarber == 1:
+	    if mBarber == 1:
                 self.b1 = create(self.canvas, "s.png", 500, 120)
-            elif mBarber == 2:
+	    elif mBarber == 2:
                 self.b1 = create(self.canvas, "s.png", 375, 120)
                 self.b2 = create(self.canvas, "s.png", 625, 120)
-            elif mBarber == 3:
+	    elif mBarber == 3:
                 self.b1 = create(self.canvas, "s.png", 250, 120)
                 self.b2 = create(self.canvas, "s.png", 500, 120)
                 self.b3 = create(self.canvas, "s.png", 750, 120)
+
+            #ClientQueue += 1
+
+            #print workingBarber[0]
+            #print workingBarber[1]
+            #print workingBarber[2]
+            '''
+            if workingBarber[0] == 1:
+                self.b1 = create(self.canvas, "s.png", 250, 120)
+            if workingBarber[1] == 1:
+                self.b2 = create(self.canvas, "s.png", 500, 120)
+            if workingBarber[2] == 1:
+                self.b3 = create(self.canvas, "s.png", 750, 120)
+            '''
             self.canvas.update_idletasks()
-            self.after(500, self.run)
+            self.after(1000, self.run)
 
             break
-
+'''
     def full(self):
-        global ClientQueue
-        global inn
-        #inn=0
-        if inn == 0:
-            self.fullpic = create(self.canvas, "full.png", 500, 415)
-            for x in range(50):
-                x=500
-                y=415
-                time.sleep(0.025)
-                self.canvas.move(self.fullpic, x, -y)
-                #canvas.move(rc2, x, y)
-                self.canvas.update_idletasks()
-            self.after(1000, self.full)
-            inn=1
-        else:
-            self.canvas.delete(self.fullpic)
-            inn=0
-            return
-
+        self.fullpic = create(self.canvas, "full.png", 500, 415)
+        
+        for x in range(50):
+            x=500
+            y=415
+            time.sleep(0.025)
+            self.canvas.move(self.fullpic, x, -y)
+            #canvas.move(rc2, x, y)
+            self.canvas.update_idletasks()
+        
+        #self.after(1000, self.full)
+        
+        self.canvas.delete(self.fullpic)
+'''
 def main():
     win=tk.Tk()
     win.title("The Sleeping Barber Problem")
