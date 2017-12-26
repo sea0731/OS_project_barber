@@ -7,6 +7,8 @@ import Tkinter as tk
 import sys
 from Tkinter import END
 
+global enter
+enter = threading.Condition()           #Wheather the client can enter the waiting room
 
 global ClientQueue
 ClientQueue = Queue.Queue()       #ClientQueue contain all clients in the store
@@ -83,8 +85,10 @@ class Barber( threading.Thread ):
             self.callC.release()
 
             time.sleep(3)
+            self.enter.acquire()
             workingBarber[self.threadID - 1] = 0
             #print workingBarber[self.threadID - 1]
+            self.enter.release()
 
             print C.clientName, " out"
 
@@ -99,8 +103,10 @@ class Barber( threading.Thread ):
                 self.callC.release()
 
                 time.sleep(3)
+                self.enter.acquire()
                 workingBarber[self.threadID - 1] = 0
             	#print workingBarber[self.threadID - 1]
+                self.enter.release()
 
                 print C.clientName, " out"
 
@@ -155,7 +161,7 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
 
     def run( self ):
         wakeUpbarber = threading.Condition()    #Wheather the client can wake up barbers  
-        enter = threading.Condition()           #Wheather the client can enter the waiting room
+        global enter
 
         callClient = threading.Condition()      #Wheather the barber can call next client
         q_Lock = threading.Condition()
@@ -280,8 +286,10 @@ class mainwindow(tk.Frame):
     def run(self):
         global ClientQueue
 	# ClientQueue here has to be syncronized
+        enter.acquire()
         global mBarber
 	mBarber = int(mBarber)
+        enter.release()
 
         global nChair
 
@@ -289,8 +297,10 @@ class mainwindow(tk.Frame):
 	global whetherIn
         global workingBarber
 	# WorkingBarber here has to be syncronized
+        enter.acquire()
         for i in range (0, mBarber):
             workingBarber.append(0)
+        enter.release()
 
         while True:
             self.canvas.delete("all")
