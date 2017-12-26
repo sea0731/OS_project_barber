@@ -123,6 +123,7 @@ class Client( threading.Thread ) :
 
 class mainObject( threading.Thread ):             #main function of  barber-client problem
     def __init__ ( self ):
+        threading.Thread.__init__( self )
         global mBarber      #mBarber record "m" barber is working
         mBarber = input("input barber: ")
         global workingBarber
@@ -148,9 +149,6 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
         BarberThreads = []                      #BarberThreads cantain all barbers who are working
         global ClientQueue
         ClientQueue = Queue.Queue(nChair)       #ClientQueue contain all clients in the store
-
-        endprogram = end()
-        endprogram.start()
 
         for threadID1 in range(1, mBarber):     #Create thread of barbers
             thread = Barber(threadID1, "barber" + str(threadID1), wakeUpbarber, callClient, enter, q_Lock)
