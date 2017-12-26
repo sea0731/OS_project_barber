@@ -126,6 +126,7 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
         threading.Thread.__init__( self )
         global mBarber      #mBarber record "m" barber is working
         mBarber = input("input barber: ")
+	mBarber = int(mBarber)
         global workingBarber
         for i in range (1,mBarber):
             workingBarber.append(0)
@@ -195,6 +196,43 @@ class create(object):
         self.image_obj= canvas.create_image(
                 xpos, ypos, image=self.tk_image)
 
+class popupWindow(object):
+    def __init__(self,master):
+	global mBarber
+        global nChair
+        global Clientp
+        
+	top=self.top=tk.Toplevel(master)
+        self.l1=tk.Label(top, text="Input the number of Barber: ")
+        self.l1.grid(row=0)
+        self.e1=tk.Entry(top)
+        self.e1.grid(row=0, column=1)
+        self.l2=tk.Label(top, text="Input the number of Chair: ")
+        self.l2.grid(row=1)
+        self.e2=tk.Entry(top)
+        self.e2.grid(row=1, column=1)
+        self.l3=tk.Label(top, text="Input Client Parameter: ")
+        self.l3.grid(row=2)
+        self.e3=tk.Entry(top)
+        self.e3.grid(row=2, column=1)
+        self.b=tk.Button(top,text='Ok',command=self.cleanup)
+        self.b.grid(row=3, column=0, pady=4)
+    def cleanup(self):
+        global mBarber
+        global nChair
+        global Clientp
+	
+        mBarber = self.e1.get()
+	nChair = self.e2.get()
+	Clientp = self.e3.get()
+        self.top.destroy()
+
+        #mainrun()
+    	mainrun = mainObject()
+
+   	mainrun.start()
+
+
 class mainwindow(tk.Frame):
     def __init__(self, master):
         self.master=master
@@ -217,7 +255,18 @@ class mainwindow(tk.Frame):
             self.run()
             #self.after(5000, self.run)
         '''
-        self.run()
+        self.button1 = tk.Button(self.canvas, text = "Enter Value!", command = self.popup)
+	self.button1.configure(width = 10, activebackground = "#33B5E5")
+	self.button1_window = self.canvas.create_window(500, 600, window=self.button1)
+	self.canvas.pack()
+
+	#self.popup()
+        #self.run()
+
+    def popup(self):
+	popupWindow(self)
+	self.button1.destroy()
+	self.run()
 
     def close(self):
         print("Application-shutdown")
@@ -233,7 +282,7 @@ class mainwindow(tk.Frame):
 
         a = ClientQueue.qsize()
         #print ClientQueue.qsize()
-        while ClientQueue<=5:
+        while True:
             if ClientQueue.qsize() == 1:
                 self.image1 = create(self.canvas, "p1.png", 500, 590)
             elif ClientQueue.qsize() == 2:
@@ -300,9 +349,9 @@ def main():
     win.title("The Sleeping Barber Problem")
     m=mainwindow(win).pack(fill='both', expand=True)
 
-    mainrun = mainObject()
+    #mainrun = mainObject()
 
-    mainrun.start()
+    #mainrun.start()
 
     win.mainloop()
 
