@@ -279,7 +279,7 @@ class mainwindow(tk.Frame):
 
     def run(self):
         global ClientQueue
-
+	# ClientQueue here has to be syncronized
         global mBarber
 	mBarber = int(mBarber)
 
@@ -288,6 +288,7 @@ class mainwindow(tk.Frame):
         global whetherFull
 	global whetherIn
         global workingBarber
+	# WorkingBarber here has to be syncronized
         for i in range (0, mBarber):
             workingBarber.append(0)
 
@@ -440,26 +441,39 @@ class mainwindow(tk.Frame):
 
 	    if mBarber == 1:
                 self.b1 = create(self.canvas, "s.png", 500, 120)
+		for i in range (0, mBarber):
+            	    if i==0 and workingBarber[i] == 1:
+            	    	self.b11 = create(self.canvas, "light.png", 500, 240)
 	    elif mBarber == 2:
                 self.b1 = create(self.canvas, "s.png", 375, 120)
                 self.b2 = create(self.canvas, "s.png", 625, 120)
+		for i in range (0, mBarber):
+            	    if i==0 and workingBarber[i] == 1:
+            	        self.b11 = create(self.canvas, "light.png", 375, 240)
+            	    if i==1 and workingBarber[i] == 1:
+            	        self.b21 = create(self.canvas, "light.png", 625, 240)
 	    elif mBarber == 3:
                 self.b1 = create(self.canvas, "s.png", 250, 120)
                 self.b2 = create(self.canvas, "s.png", 500, 120)
                 self.b3 = create(self.canvas, "s.png", 750, 120)
-
+		for i in range (0, mBarber):
+            	    if i==0 and workingBarber[i] == 1:
+            	        self.b11 = create(self.canvas, "light.png", 250, 240)
+            	    if i==1 and workingBarber[i] == 1:
+            	        self.b21 = create(self.canvas, "light.png", 500, 240)
+            	    if i==2 and workingBarber[i] == 1:
+                        self.b31 = create(self.canvas, "light.png", 750, 240)
+	    '''
 	    for i in range (0, mBarber):
-            #	print workingBarber[i]
+            	if i==0 and workingBarber[i] == 1:
+            	    self.b1 = create(self.canvas, "light.png", 250, 240)
             	if i==1 and workingBarber[i] == 1:
-		    print "1"
             	    self.b1 = create(self.canvas, "light.png", 250, 240)
             	if i==2 and workingBarber[i] == 1:
                     self.b2 = create(self.canvas, "light.png", 500, 240)
-		    print "2"
             	if i==3 and workingBarber[i] == 1:
                     self.b3 = create(self.canvas, "light.png", 750, 240)
-		    print "3"
-            
+            '''
             self.canvas.update_idletasks()
             self.after(500, self.run)
 
