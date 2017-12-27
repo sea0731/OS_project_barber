@@ -282,10 +282,15 @@ class mainwindow(tk.Frame):
 	self.button1_window = self.canvas.create_window(500, 600, window=self.button1)
 	self.canvas.pack()
 
+        self.button2 = tk.Button(self.canvas, text = "Start!", command = self.run)
+	self.button2.configure(width = 10, activebackground = "#33B5E5")
+	self.button2_window = self.canvas.create_window(500, 630, window=self.button2)
+	self.canvas.pack()
+
     def popup(self):
 	popupWindow(self)
 	self.button1.destroy()
-	self.run()
+	#self.run()
 
     def close(self):
         print("Application-shutdown")
@@ -489,9 +494,9 @@ class mainwindow(tk.Frame):
                         self.circr3 = self.canvas.create_oval(730, 190, 770, 230, fill='red')
 
             self.canvas.update_idletasks()
-            self.after(100, self.run)
+            #self.after(100, self.run)
 
-            break
+            #break
 
 def main():
     win=tk.Tk()
