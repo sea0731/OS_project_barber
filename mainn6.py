@@ -143,17 +143,18 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
     def __init__ ( self ):
         threading.Thread.__init__( self )
         global mBarber      #mBarber record "m" barber is working
-        mBarber = input("input barber: ")
+        #mBarber = input("input barber: ")
 	mBarber = int(mBarber)
         global workingBarber
         for i in range (0, mBarber):
             workingBarber.append(0)
 
         global nChair       #nChair record "n" chair in waiting room
-        nChair = input("input the number of chair: ")
+        #nChair = input("input the number of chair: ")
+        nChair = int(nChair)
 	#print "inmain: ", nChair
         global Clientp      #Clientp record the frequent parameter of clients come
-        Clientp = input("input client paramater: ")
+        #Clientp = input("input client paramater: ")
 
         global BarberThreads
 
@@ -296,6 +297,7 @@ class mainwindow(tk.Frame):
         enter.release()
 
         global nChair
+        nChair = int(nChair)
 
         global whetherFull
 	global whetherIn
@@ -305,7 +307,6 @@ class mainwindow(tk.Frame):
         for i in range (0, mBarber):
             workingBarber.append(0)
         enter.release()
-	print nChair
 
         while True:
             self.canvas.delete("all")
@@ -317,11 +318,11 @@ class mainwindow(tk.Frame):
                 time.sleep(1)
                 self.canvas.delete(self.peopleIn)
 
-	    print "fuck"
             if nChair == 1:
                 self.image1 = create(self.canvas, "c.png", 500, 590)
 		if ClientQueue.qsize() == 1:
 		    self.canvas.delete(self.image1)
+                    self.image1 = create(self.canvas, "p1.png", 500, 500)
             elif nChair == 2:
                 self.image1 = create(self.canvas, "c.png", 375, 590)
                 self.image2 = create(self.canvas, "c.png", 625, 590)
@@ -338,17 +339,14 @@ class mainwindow(tk.Frame):
                 self.image2 = create(self.canvas, "c.png", 500, 590)
                 self.image3 = create(self.canvas, "c.png", 750, 590)
 		if ClientQueue.qsize() == 1:
-		    print "1"
 		    self.canvas.delete(self.image1)
                     self.image1 = create(self.canvas, "p1.png", 250, 590)
             	elif ClientQueue.qsize() == 2:
-		    print "2"
               	    self.canvas.delete(self.image1)
 		    self.canvas.delete(self.image2)
                     self.image1 = create(self.canvas, "p1.png", 250, 590)
                     self.image2 = create(self.canvas, "p1.png", 500, 590)
             	elif ClientQueue.qsize() == 3:
-		    print "3"
               	    self.canvas.delete(self.image1)
 		    self.canvas.delete(self.image2)
 		    self.canvas.delete(self.image3)
