@@ -192,7 +192,7 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
 
             print "client in", threadID2
 	    
-	    time.sleep(2)
+	    #time.sleep(2)
 
             q_Lock.acquire()
 
@@ -324,7 +324,7 @@ class mainwindow(tk.Frame):
                 #time.sleep(1)
 		if whetherIn == 2:                
 		    #self.after(1000, self.run)
-		    time.sleep(2)
+		    time.sleep(1)
 		    whetherIn = 3
 		if whetherIn == 3:
                     self.canvas.delete(self.peopleIn)
@@ -337,7 +337,7 @@ class mainwindow(tk.Frame):
                 #time.sleep(1)
 		if whetherOut == 2:                
 		    #self.after(1000, self.run)
-		    time.sleep(2)
+		    time.sleep(1)
 		    whetherOut = 3
 		if whetherOut == 3:
                     self.canvas.delete(self.peopleOut)
