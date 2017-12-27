@@ -40,17 +40,12 @@ class end( threading.Thread ):              #end function try to get the input i
         global ClientQueue
         global BarberThreads
 
-        while endS != "Y":
-            endS = input("Do you want to close the store?(Y or N)")
-
-            if endS != "Y" or end != "N" :
-                print("please type Y or N")
-            elif endS == "Y":
-                while ClientQueue.empty() != true:
-                    ClientQueue.get().exit()
-                for barber in BarberThreads:
-                    barber.exit()
-                mainrun.exit()
+     
+        while ClientQueue.empty() != true:
+       	    ClientQueue.get().exit()
+       	for barber in BarberThreads:
+            barber.exit()
+        mainrun.exit()
                 
 
 class Barber( threading.Thread ):
@@ -76,7 +71,7 @@ class Barber( threading.Thread ):
 
             self.enter.acquire()
             C = ClientQueue.get()
-            workingBarber[self.threadID - 1] = 1
+            workingBarber[self.threadID] = 1
             #print workingBarber[self.threadID - 1]
             self.enter.release()
 
@@ -84,9 +79,10 @@ class Barber( threading.Thread ):
             self.callC.notify()
             self.callC.release()
 
-            time.sleep(3)
+            time.sleep(10)
+	    print "thread",self.threadID,workingBarber[ self.threadID]
             self.enter.acquire()
-            workingBarber[self.threadID - 1] = 0
+            workingBarber[self.threadID] = 0
             #print workingBarber[self.threadID - 1]
             self.enter.release()
 
@@ -95,16 +91,17 @@ class Barber( threading.Thread ):
             self.enter.acquire()
             while ClientQueue.empty() != True:
                 C = ClientQueue.get()
-                workingBarber[self.threadID - 1] = 1
+                workingBarber[self.threadID] = 1
             	#print workingBarber[self.threadID - 1]
                 self.enter.release()
                 self.callC.acquire()
                 self.callC.notify()
                 self.callC.release()
 
-                time.sleep(3)
+                time.sleep(10)
+		print "thread",self.threadID,workingBarber[ self.threadID]
                 self.enter.acquire()
-                workingBarber[self.threadID - 1] = 0
+                workingBarber[self.threadID] = 0
             	#print workingBarber[self.threadID - 1]
                 self.enter.release()
 
@@ -154,6 +151,7 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
 
         global nChair       #nChair record "n" chair in waiting room
         nChair = input("input the number of chair: ")
+	#print "inmain: ", nChair
         global Clientp      #Clientp record the frequent parameter of clients come
         Clientp = input("input client paramater: ")
 
@@ -187,6 +185,8 @@ class mainObject( threading.Thread ):             #main function of  barber-clie
 	    whetherIn = 1
 
             print "client in", threadID2
+	    
+	    time.sleep(2)
 
             q_Lock.acquire()
 
@@ -248,10 +248,13 @@ class popupWindow(object):
         global mBarber
         global nChair
         global Clientp
+
+
 	
         mBarber = self.e1.get()
 	nChair = self.e2.get()
 	Clientp = self.e3.get()
+
         self.top.destroy()
 
     	mainrun = mainObject()
@@ -287,6 +290,7 @@ class mainwindow(tk.Frame):
         global ClientQueue
 	# ClientQueue here has to be syncronized
         enter.acquire()
+	
         global mBarber
 	mBarber = int(mBarber)
         enter.release()
@@ -301,6 +305,7 @@ class mainwindow(tk.Frame):
         for i in range (0, mBarber):
             workingBarber.append(0)
         enter.release()
+	print nChair
 
         while True:
             self.canvas.delete("all")
@@ -312,6 +317,7 @@ class mainwindow(tk.Frame):
                 time.sleep(1)
                 self.canvas.delete(self.peopleIn)
 
+	    print "fuck"
             if nChair == 1:
                 self.image1 = create(self.canvas, "c.png", 500, 590)
 		if ClientQueue.qsize() == 1:
@@ -485,7 +491,7 @@ class mainwindow(tk.Frame):
                     self.b3 = create(self.canvas, "light.png", 750, 240)
             '''
             self.canvas.update_idletasks()
-            self.after(500, self.run)
+            self.after(100, self.run)
 
             break
 
@@ -495,6 +501,7 @@ def main():
     m=mainwindow(win).pack(fill='both', expand=True)
 
     win.mainloop()
+
 
 if __name__ == "__main__":
     main()
